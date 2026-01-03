@@ -1142,7 +1142,7 @@ class _AllFeaturesExampleState extends State<AllFeaturesExample> {
 
           // Selected Date Info
           Card(
-            color: _activeColor.withOpacity(0.1),
+            color: _activeColor.withValues(alpha: 0.1),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
