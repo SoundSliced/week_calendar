@@ -580,12 +580,15 @@ class _WeekCalendarState extends State<WeekCalendar> {
                               widget.onHeaderDateTapped?.call(pos);
 
                               if (widget.showCalendarPopupOnHeaderTap) {
-                                final selectedDates = await showCalendarDatePicker2Dialog(
+                                final selectedDates =
+                                    await showCalendarDatePicker2Dialog(
                                   context: context,
-                                  config: CalendarDatePicker2WithActionButtonsConfig(
-                                    
-                                    calendarType: CalendarDatePicker2Type.single,
-                                    selectedDayHighlightColor: widget.calendarStyle.activeDayColor,
+                                  config:
+                                      CalendarDatePicker2WithActionButtonsConfig(
+                                    calendarType:
+                                        CalendarDatePicker2Type.single,
+                                    selectedDayHighlightColor:
+                                        widget.calendarStyle.activeDayColor,
                                     firstDate: DateTime(2000),
                                     lastDate: DateTime.now(),
                                     currentDate: widget.selectedDate,
@@ -594,8 +597,9 @@ class _WeekCalendarState extends State<WeekCalendar> {
                                   value: [widget.selectedDate],
                                   borderRadius: BorderRadius.circular(15),
                                 );
-                                
-                                if (selectedDates != null && selectedDates.isNotEmpty) {
+
+                                if (selectedDates != null &&
+                                    selectedDates.isNotEmpty) {
                                   final selectedDate = selectedDates.first;
                                   if (selectedDate != null) {
                                     _handleDaySelection(selectedDate);
@@ -823,198 +827,198 @@ class _WeekCalendarState extends State<WeekCalendar> {
         SizedBox(
           height: widget.calendarStyle.dayIndicatorSize * 2,
           child: Row(
-              children: [
-                // previous week button
-                SInkButton(
-                  color: Colors.blueAccent,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.blueAccent.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                    child: Icon(
-                      Icons.skip_previous_outlined,
-                      color: widget.iconColor,
-                      size: 16,
-                    ),
+            children: [
+              // previous week button
+              SInkButton(
+                color: Colors.blueAccent,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.blueAccent.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(2),
                   ),
-                  onTap: (pos) {
-                    setState(() {
-                      // Jump to previous week
-                      final currentPage = _pageController.page?.round() ?? 0;
-                      if (currentPage == 0) {
-                        // At start of month, jump to previous month
-                        _headerDate = widget.isUtc
-                            ? DateTime.utc(
-                                _headerDate.year, _headerDate.month - 1)
-                            : DateTime(_headerDate.year, _headerDate.month - 1);
-                        _weeks = _generateWeeks(_headerDate);
-                        final newPage =
-                            _weeks.length - 1; // Last week of previous month
-                        if (widget.enableAnimations) {
-                          _pageController.animateToPage(
-                            newPage,
-                            duration: widget.animationDuration ??
-                                const Duration(milliseconds: 300),
-                            curve: widget.animationCurve ?? Curves.easeInOut,
-                          );
-                        } else {
-                          _pageController.jumpToPage(newPage);
-                        }
-                        widget.onPreviousMonth?.call();
-                      } else {
-                        final previousPage =
-                            (currentPage - 1).clamp(0, _weeks.length - 1);
-                        if (widget.enableAnimations) {
-                          _pageController.animateToPage(
-                            previousPage,
-                            duration: widget.animationDuration ??
-                                const Duration(milliseconds: 300),
-                            curve: widget.animationCurve ?? Curves.easeInOut,
-                          );
-                        } else {
-                          _pageController.jumpToPage(previousPage);
-                        }
-                      }
-                    });
-                    widget.onPreviousWeek?.call();
-                  },
+                  child: Icon(
+                    Icons.skip_previous_outlined,
+                    color: widget.iconColor,
+                    size: 16,
+                  ),
                 ),
+                onTap: (pos) {
+                  setState(() {
+                    // Jump to previous week
+                    final currentPage = _pageController.page?.round() ?? 0;
+                    if (currentPage == 0) {
+                      // At start of month, jump to previous month
+                      _headerDate = widget.isUtc
+                          ? DateTime.utc(
+                              _headerDate.year, _headerDate.month - 1)
+                          : DateTime(_headerDate.year, _headerDate.month - 1);
+                      _weeks = _generateWeeks(_headerDate);
+                      final newPage =
+                          _weeks.length - 1; // Last week of previous month
+                      if (widget.enableAnimations) {
+                        _pageController.animateToPage(
+                          newPage,
+                          duration: widget.animationDuration ??
+                              const Duration(milliseconds: 300),
+                          curve: widget.animationCurve ?? Curves.easeInOut,
+                        );
+                      } else {
+                        _pageController.jumpToPage(newPage);
+                      }
+                      widget.onPreviousMonth?.call();
+                    } else {
+                      final previousPage =
+                          (currentPage - 1).clamp(0, _weeks.length - 1);
+                      if (widget.enableAnimations) {
+                        _pageController.animateToPage(
+                          previousPage,
+                          duration: widget.animationDuration ??
+                              const Duration(milliseconds: 300),
+                          curve: widget.animationCurve ?? Curves.easeInOut,
+                        );
+                      } else {
+                        _pageController.jumpToPage(previousPage);
+                      }
+                    }
+                  });
+                  widget.onPreviousWeek?.call();
+                },
+              ),
 
-                // the Calendar Days
-                Expanded(
-                  child: PageView.builder(
-                    controller: _pageController,
-                    itemCount: _weeks.length,
-                    itemBuilder: (context, index) {
-                      return LayoutBuilder(
-                        builder: (context, constraints) {
-                          final dayWidth = constraints.maxWidth / 7;
-                          return AnimatedSwitcher(
-                            duration: widget.animationDuration ??
-                                const Duration(milliseconds: 300),
-                            switchInCurve:
-                                widget.animationCurve ?? Curves.easeInOut,
-                            child: Row(
-                              key: ValueKey(_weeks[index]),
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children:
-                                  // Day Indicators
-                                  _weeks[index].map((day) {
-                                final isSelected =
-                                    _isSameDay(day, widget.selectedDate);
+              // the Calendar Days
+              Expanded(
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: _weeks.length,
+                  itemBuilder: (context, index) {
+                    return LayoutBuilder(
+                      builder: (context, constraints) {
+                        final dayWidth = constraints.maxWidth / 7;
+                        return AnimatedSwitcher(
+                          duration: widget.animationDuration ??
+                              const Duration(milliseconds: 300),
+                          switchInCurve:
+                              widget.animationCurve ?? Curves.easeInOut,
+                          child: Row(
+                            key: ValueKey(_weeks[index]),
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children:
+                                // Day Indicators
+                                _weeks[index].map((day) {
+                              final isSelected =
+                                  _isSameDay(day, widget.selectedDate);
 
-                                return Flexible(
-                                  child: SizedBox(
-                                    width: dayWidth,
-                                    child: SDisabled(
-                                      isDisabled: day.isAfter(today),
-                                      child: SInkButton(
-                                        color: Colors.blueAccent,
-                                        onTap: (pos) {
-                                          _handleDaySelection(day);
-                                        },
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          spacing: 0,
-                                          children: [
-                                            if (widget.calendarType !=
-                                                WeekCalendarType.minimal)
-                                              Text(
-                                                DateFormat('E')
-                                                    .format(day)
-                                                    .substring(0, 2),
-                                                style: widget
-                                                    .calendarStyle.dayNameStyle
-                                                    .copyWith(
-                                                  fontWeight: isSelected
-                                                      ? FontWeight.bold
-                                                      : null,
-                                                  color: isSelected
-                                                      ? widget.calendarStyle
-                                                          .activeDayColor
-                                                          .darken(0.2)
-                                                      : null,
-                                                ),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
+                              return Flexible(
+                                child: SizedBox(
+                                  width: dayWidth,
+                                  child: SDisabled(
+                                    isDisabled: day.isAfter(today),
+                                    child: SInkButton(
+                                      color: Colors.blueAccent,
+                                      onTap: (pos) {
+                                        _handleDaySelection(day);
+                                      },
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        spacing: 0,
+                                        children: [
+                                          if (widget.calendarType !=
+                                              WeekCalendarType.minimal)
+                                            Text(
+                                              DateFormat('E')
+                                                  .format(day)
+                                                  .substring(0, 2),
+                                              style: widget
+                                                  .calendarStyle.dayNameStyle
+                                                  .copyWith(
+                                                fontWeight: isSelected
+                                                    ? FontWeight.bold
+                                                    : null,
+                                                color: isSelected
+                                                    ? widget.calendarStyle
+                                                        .activeDayColor
+                                                        .darken(0.2)
+                                                    : null,
                                               ),
-                                            Flexible(
-                                                child: _buildDayIndicator(
-                                                    day, isSelected)),
-                                          ],
-                                        ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          Flexible(
+                                              child: _buildDayIndicator(
+                                                  day, isSelected)),
+                                        ],
                                       ),
                                     ),
                                   ),
-                                );
-                              }).toList(),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
-
-                // previous week button
-                SInkButton(
-                  color: Colors.blueAccent,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.blueAccent.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                    child: Icon(
-                      Icons.skip_next_outlined,
-                      color: widget.iconColor,
-                      size: 16,
-                    ),
-                  ),
-                  onTap: (pos) {
-                    setState(() {
-                      // Jump to next week
-                      final currentPage = _pageController.page?.round() ?? 0;
-                      if (currentPage == _weeks.length - 1) {
-                        // At end of month, jump to next month
-                        _headerDate = widget.isUtc
-                            ? DateTime.utc(
-                                _headerDate.year, _headerDate.month + 1)
-                            : DateTime(_headerDate.year, _headerDate.month + 1);
-                        _weeks = _generateWeeks(_headerDate);
-                        final newPage = 0; // First week of next month
-                        if (widget.enableAnimations) {
-                          _pageController.animateToPage(
-                            newPage,
-                            duration: widget.animationDuration ??
-                                const Duration(milliseconds: 300),
-                            curve: widget.animationCurve ?? Curves.easeInOut,
-                          );
-                        } else {
-                          _pageController.jumpToPage(newPage);
-                        }
-                        widget.onNextMonth?.call();
-                      } else {
-                        final nextPage =
-                            (currentPage + 1).clamp(0, _weeks.length - 1);
-                        if (widget.enableAnimations) {
-                          _pageController.animateToPage(
-                            nextPage,
-                            duration: widget.animationDuration ??
-                                const Duration(milliseconds: 300),
-                            curve: widget.animationCurve ?? Curves.easeInOut,
-                          );
-                        } else {
-                          _pageController.jumpToPage(nextPage);
-                        }
-                      }
-                    });
-                    widget.onNextWeek?.call();
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        );
+                      },
+                    );
                   },
                 ),
-              ],
-            ),
+              ),
+
+              // previous week button
+              SInkButton(
+                color: Colors.blueAccent,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.blueAccent.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                  child: Icon(
+                    Icons.skip_next_outlined,
+                    color: widget.iconColor,
+                    size: 16,
+                  ),
+                ),
+                onTap: (pos) {
+                  setState(() {
+                    // Jump to next week
+                    final currentPage = _pageController.page?.round() ?? 0;
+                    if (currentPage == _weeks.length - 1) {
+                      // At end of month, jump to next month
+                      _headerDate = widget.isUtc
+                          ? DateTime.utc(
+                              _headerDate.year, _headerDate.month + 1)
+                          : DateTime(_headerDate.year, _headerDate.month + 1);
+                      _weeks = _generateWeeks(_headerDate);
+                      final newPage = 0; // First week of next month
+                      if (widget.enableAnimations) {
+                        _pageController.animateToPage(
+                          newPage,
+                          duration: widget.animationDuration ??
+                              const Duration(milliseconds: 300),
+                          curve: widget.animationCurve ?? Curves.easeInOut,
+                        );
+                      } else {
+                        _pageController.jumpToPage(newPage);
+                      }
+                      widget.onNextMonth?.call();
+                    } else {
+                      final nextPage =
+                          (currentPage + 1).clamp(0, _weeks.length - 1);
+                      if (widget.enableAnimations) {
+                        _pageController.animateToPage(
+                          nextPage,
+                          duration: widget.animationDuration ??
+                              const Duration(milliseconds: 300),
+                          curve: widget.animationCurve ?? Curves.easeInOut,
+                        );
+                      } else {
+                        _pageController.jumpToPage(nextPage);
+                      }
+                    }
+                  });
+                  widget.onNextWeek?.call();
+                },
+              ),
+            ],
           ),
+        ),
       ],
     );
   }
