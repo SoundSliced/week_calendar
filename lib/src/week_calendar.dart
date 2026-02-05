@@ -348,7 +348,24 @@ class _WeekCalendarState extends State<WeekCalendar> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.startingDay != widget.startingDay ||
         oldWidget.selectedDate != widget.selectedDate) {
-      _weeks = _generateWeeks(_headerDate);
+      // Check if selectedDate is in a different month/year than current headerDate
+      final selectedMonth =
+          DateTime(widget.selectedDate.year, widget.selectedDate.month);
+      final currentMonth = DateTime(_headerDate.year, _headerDate.month);
+
+      if (selectedMonth != currentMonth) {
+        // Update headerDate to match selectedDate's month
+        setState(() {
+          _headerDate = widget.isUtc
+              ? DateTime.utc(
+                  widget.selectedDate.year, widget.selectedDate.month)
+              : DateTime(widget.selectedDate.year, widget.selectedDate.month);
+          _weeks = _generateWeeks(_headerDate);
+        });
+      } else {
+        _weeks = _generateWeeks(_headerDate);
+      }
+
       final newPage = _findWeekIndex(_weeks, widget.selectedDate);
       if (_pageController.hasClients) {
         _pageController.jumpToPage(newPage);

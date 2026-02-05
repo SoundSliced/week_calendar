@@ -28,7 +28,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  week_calendar: ^1.0.0
+  week_calendar: ^1.1.0
 ```
 
 Then run:
