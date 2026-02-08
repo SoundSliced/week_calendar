@@ -3,4 +3,4 @@
 /// This library exports all public APIs for the week_calendar package.
 library;
 
-export 'src/week_calendar.dart';
+export 'package:s_packages/s_packages.dart';

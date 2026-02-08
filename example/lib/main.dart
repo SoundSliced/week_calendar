@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:week_calendar/week_calendar.dart';
 
 void main() {
