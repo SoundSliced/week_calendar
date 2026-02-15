@@ -1,6 +1,6 @@
 name: week_calendar
 description: A highly customizable Flutter package that provides a horizontally scrollable weekly calendar widget with multiple visual styles and extensive configuration options.
-version: 2.0.0
+version: 2.1.0
 homepage: https://github.com/SoundSliced/week_calendar
 repository: https://github.com/SoundSliced/week_calendar
 issue_tracker: https://github.com/SoundSliced/week_calendar/issues
@@ -12,7 +12,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  s_packages: ^1.1.2
+  s_packages: ^1.4.1
  
 
 dev_dependencies:

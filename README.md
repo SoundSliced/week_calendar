@@ -28,7 +28,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  week_calendar: ^2.0.0
+  week_calendar: ^2.1.0
 ```
 
 Then run:
@@ -272,6 +272,10 @@ WeekCalendar(
 | `onHeaderTodayDate` | `Function(Offset)?` | `null` | Callback when today button is tapped |
 | `isUtc` | `bool` | `true` | Use UTC dates instead of local |
 | `showCalendarPopupOnHeaderTap` | `bool` | `true` | Show calendar popup on header tap |
+| `minDate` | `DateTime?` | `null` | Minimum selectable date boundary |
+| `maxDate` | `DateTime?` | `null` | Maximum selectable date boundary |
+| `eventIndicatorDates` | `List<DateTime>?` | `null` | Dates that show event dot indicators |
+| `eventIndicatorColor` | `Color?` | `null` | Color for event dot indicators |
 
 ### WeekCalendarType
 
